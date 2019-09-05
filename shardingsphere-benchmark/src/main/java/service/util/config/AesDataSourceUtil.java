@@ -6,17 +6,14 @@ import org.apache.shardingsphere.api.config.encrypt.EncryptColumnRuleConfigurati
 import org.apache.shardingsphere.api.config.encrypt.EncryptRuleConfiguration;
 import org.apache.shardingsphere.api.config.encrypt.EncryptTableRuleConfiguration;
 import org.apache.shardingsphere.api.config.encrypt.EncryptorRuleConfiguration;
+import org.apache.shardingsphere.shardingjdbc.api.EncryptDataSourceFactory;
 import service.api.entity.Iou;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
-/**
- * dataSource util
- * @author nancyzrh
- */
-public class DataSourceUtil {
+public class AesDataSourceUtil {
     private static final String USER_NAME = "####";
     private static final String DEFAULT_SCHEMA = "test";
     private static final Map<String, DataSource> datasourceMap = new HashMap<>();
@@ -47,7 +44,38 @@ public class DataSourceUtil {
         config.addDataSourceProperty("maintainTimeStats", Boolean.FALSE.toString());
         config.addDataSourceProperty("netTimeoutForStreamingResults", 0);
         DataSource dataSource = new HikariDataSource(config);
+        Properties properties = new Properties();
+        EncryptRuleConfiguration ruleConfiguration = createEncryptRuleConfiguration();
+        try {
+            dataSource = EncryptDataSourceFactory.createDataSource(dataSource, ruleConfiguration, properties);
+        } catch (final SQLException ignored) {
+        }
         datasourceMap.put(dataSourceName, dataSource);
+    }
+
+    /**
+     * create encryptRule config
+     * @return
+     */
+    private static EncryptRuleConfiguration createEncryptRuleConfiguration() {
+        Properties properties = new Properties();
+        properties.setProperty("aes.key.value", "####");
+        EncryptorRuleConfiguration encryptorConfig = new EncryptorRuleConfiguration("aes", properties);
+        EncryptRuleConfiguration result = new EncryptRuleConfiguration();
+        result.getEncryptors().put("aes", encryptorConfig);
+        result.getTables().put("test", createEncryptTableConfig());
+        return result;
+    }
+
+    /**
+     * create encryptTableRule config
+     * @return
+     */
+    private static EncryptTableRuleConfiguration createEncryptTableConfig() {
+        EncryptColumnRuleConfiguration columnConfig = new EncryptColumnRuleConfiguration("", "pad", "", "aes");
+        Map<String, EncryptColumnRuleConfiguration> columns = new LinkedHashMap<>();
+        columns.put("pad", columnConfig);
+        return new EncryptTableRuleConfiguration(columns);
     }
 
     /**
@@ -175,6 +203,5 @@ public class DataSourceUtil {
             return preparedStatement.executeUpdate();
         }
     }
-
 
 }
