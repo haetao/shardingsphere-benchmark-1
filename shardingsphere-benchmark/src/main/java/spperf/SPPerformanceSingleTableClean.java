@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class SPPerformanceSingleTableClean extends AbstractJavaSamplerClient {
     static {
-        DataSourceUtil.createDataSource("#####", "####", 1, "###");
+        DataSourceUtil.createDataSource("test", "####", 3307, "####");
     }
 
     @Override

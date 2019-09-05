@@ -17,8 +17,8 @@ import java.util.*;
  * @author nancyzrh
  */
 public class DataSourceUtil {
-    private static final String USER_NAME = "###";
-    private static final String DEFAULT_SCHEMA = "####";
+    private static final String USER_NAME = "####";
+    private static final String DEFAULT_SCHEMA = "test";
     private static final Map<String, DataSource> datasourceMap = new HashMap<>();
 
     /**
@@ -60,7 +60,7 @@ public class DataSourceUtil {
         EncryptorRuleConfiguration encryptorConfig = new EncryptorRuleConfiguration("aes", properties);
         EncryptRuleConfiguration result = new EncryptRuleConfiguration();
         result.getEncryptors().put("aes", encryptorConfig);
-        result.getTables().put("####", createEncryptTableConfig());
+        result.getTables().put("test", createEncryptTableConfig());
         return result;
     }
 
@@ -78,7 +78,7 @@ public class DataSourceUtil {
     /**
      * get datasource
      * @param dataSourceName
-     * @return
+     * @return datasource
      */
     public static DataSource getDataSource(final String dataSourceName) {
         return datasourceMap.get(dataSourceName);
@@ -195,8 +195,8 @@ public class DataSourceUtil {
     public static int deleteIou(final String sql, String datasource) throws SQLException {
         try (Connection connection = getDataSource(datasource).getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, 1);
-            preparedStatement.setInt(2, 1);
+            preparedStatement.setInt(1,1);
+            preparedStatement.setInt(2,1);
             return preparedStatement.executeUpdate();
         }
     }
