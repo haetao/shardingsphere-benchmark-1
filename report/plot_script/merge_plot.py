@@ -1,6 +1,21 @@
 #!/usr/bin/env python
 import matplotlib.pyplot as plt
-  
+import re 
+def pattern_ylabel(y):
+    """
+    pattern ylabel
+    """
+    pattern_num=str(y)
+    if y/10000 >= 1:
+        pattern=r'(\d+)(\d{4})((,\d{4})*)'
+    else:
+        pattern=r'(\d+)(\d{3})((,\d{3})*)'
+    while True:
+        pattern_num,count=re.subn(pattern,r'\1,\2\3',pattern_num)
+        if count==0:
+            break
+    return re.split(re.compile(r','),pattern_num)[0]+'k'
+
 def perf_data(v3,v4,dataset):
     """
     generate dataset for plot
@@ -39,11 +54,11 @@ def perf_line_plots(v3,v4,title,pname):
     plt.title(title)
     plt.plot(dataset['build_num'], dataset['3.0_version'], color='b', label='3.0version')
     for i in range(len(dataset['build_num'])):
-        plt.text(dataset['build_num'][i],dataset['3.0_version'][i],str(dataset['3.0_version'][i]))
+        plt.text(dataset['build_num'][i],dataset['3.0_version'][i],pattern_ylabel(dataset['3.0_version'][i]))
     
     plt.plot(dataset['build_num'], dataset['4.0_version'], color='cyan', label='4.0version')
     for i in range(len(dataset['build_num'])):
-        plt.text(dataset['build_num'][i],dataset['4.0_version'][i],str(dataset['4.0_version'][i]))
+        plt.text(dataset['build_num'][i],dataset['4.0_version'][i],pattern_ylabel(dataset['4.0_version'][i]))
     plt.xlim() 
     plt.legend()
     plt.xlabel('build_num')
