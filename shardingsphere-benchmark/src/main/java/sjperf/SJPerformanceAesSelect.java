@@ -32,7 +32,7 @@ public class SJPerformanceAesSelect extends AbstractJavaSamplerClient {
         results.sampleStart();
         try {
             String insertSql = "SELECT id,k from test where id=1 and k=1";
-            DataSourceUtil.getIou(insertSql,"test");
+            AesDataSourceUtil.getIou(insertSql,"test");
         } catch (SQLException ex) {
             results.setSuccessful(false);
             return results;
