@@ -24,6 +24,7 @@ public class SJSingleRoutingDeletePerf extends AbstractJavaSamplerClient {
         } catch (final SQLException ignore) {
         }
     }
+
     @Override
     public SampleResult runTest(JavaSamplerContext javaSamplerContext) {
 
@@ -31,7 +32,7 @@ public class SJSingleRoutingDeletePerf extends AbstractJavaSamplerClient {
         results.setSampleLabel("SJSingleRoutingDeletePerf");
         results.sampleStart();
         try {
-            SJPerfDataSourceUtil.delete(DELETE_SQL_SINGLE_ROUTING,sjPerfService.dataSource);
+            SJPerfDataSourceUtil.delete(DELETE_SQL_SINGLE_ROUTING, sjPerfService.dataSource);
         } catch (SQLException ex) {
             results.setSuccessful(false);
             return results;
