@@ -1,25 +1,26 @@
-package sjperf_3_1_0.SJMasterSlave;
+package sjperf.v3.SJTableRouting;
 
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 import service.api.service.SJPerfService;
+import service.util.config.sjperf.v3.SJPerfDataSourceOp;
 import service.util.config.sjperf.SJPerfDataSourceUtil;
-import service.util.config.sjperf_3_1_0.SJPerfDataSourceOp_3_1_0;
-import sjperf_3_1_0.SQLStatement;
+import sjperf.v3.SQLStatement;
 
 import java.sql.SQLException;
 
 /**
- * sharding jdbc performance for master slave update
+ * for sharding jdbc table routing select performance
  */
-public class SJPerformanceMSUpdate extends AbstractJavaSamplerClient {
-    public static final String UPDATE_SQL_MASTER_SLAVE = SQLStatement.UPDATE_SQL_MASTER_SLAVE.getValue();
+public class SJTableRoutingSelectPerf extends AbstractJavaSamplerClient {
+
+    public static final String SELECT_SQL_TABLE_ROUTING = SQLStatement.SELECT_SQL_TABLE_ROUTING.getValue();
     public static SJPerfService sjPerfService;
 
     static {
         try {
-            sjPerfService = new SJPerfService(SJPerfDataSourceOp_3_1_0.CreateMSDataSource());
+            sjPerfService = new SJPerfService(SJPerfDataSourceOp.CreateDataSource());
         } catch (final SQLException ignore) {
         }
     }
@@ -27,10 +28,10 @@ public class SJPerformanceMSUpdate extends AbstractJavaSamplerClient {
     public SampleResult runTest(JavaSamplerContext javaSamplerContext) {
 
         SampleResult results = new SampleResult();
-        results.setSampleLabel("SJPerformanceMSUpdate");
+        results.setSampleLabel("SJTableRoutingSelectPerf");
         results.sampleStart();
         try {
-            SJPerfDataSourceUtil.updateStmt(UPDATE_SQL_MASTER_SLAVE,sjPerfService.dataSource);
+            SJPerfDataSourceUtil.getSelect(SELECT_SQL_TABLE_ROUTING,sjPerfService.dataSource);
         } catch (SQLException ex) {
             results.setSuccessful(false);
             return results;
@@ -40,4 +41,5 @@ public class SJPerformanceMSUpdate extends AbstractJavaSamplerClient {
         results.setSuccessful(true);
         return results;
     }
+
 }

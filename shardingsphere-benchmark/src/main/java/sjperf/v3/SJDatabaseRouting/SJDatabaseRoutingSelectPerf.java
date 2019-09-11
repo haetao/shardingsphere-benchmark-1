@@ -1,12 +1,12 @@
-package sjperf_3_1_0.SJDatabaseRouting;
+package sjperf.v3.SJDatabaseRouting;
 
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 import service.api.service.SJPerfService;
-import service.util.config.sjperf_3_1_0.SJPerfDataSourceOp_3_1_0;
+import service.util.config.sjperf.v3.SJPerfDataSourceOp;
 import service.util.config.sjperf.SJPerfDataSourceUtil;
-import sjperf_3_1_0.SQLStatement;
+import sjperf.v3.SQLStatement;
 
 import java.sql.SQLException;
 
@@ -20,7 +20,7 @@ public class SJDatabaseRoutingSelectPerf extends AbstractJavaSamplerClient {
 
     static {
         try {
-            sjPerfService = new SJPerfService(SJPerfDataSourceOp_3_1_0.CreateDataSource());
+            sjPerfService = new SJPerfService(SJPerfDataSourceOp.CreateDataSource());
         } catch (final SQLException ignore) {
         }
     }

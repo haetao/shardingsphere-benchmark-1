@@ -1,4 +1,4 @@
-package sjperf_3_1_0;
+package sjperf.v3;
 
 public enum SQLStatement {
     //DataBase Routing SQL

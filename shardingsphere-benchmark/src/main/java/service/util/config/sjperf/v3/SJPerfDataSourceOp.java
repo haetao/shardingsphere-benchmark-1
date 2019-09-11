@@ -1,4 +1,4 @@
-package service.util.config.sjperf_3_1_0;
+package service.util.config.sjperf.v3;
 
 import io.shardingsphere.api.config.rule.MasterSlaveRuleConfiguration;
 import io.shardingsphere.api.config.rule.ShardingRuleConfiguration;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * for different sjperf dataSource
  */
-public class SJPerfDataSourceOp_3_1_0 {
+public class SJPerfDataSourceOp {
 
     /**
      * create full routing
